@@ -203,7 +203,7 @@ public class ApartmentService {
     /**
      * Hämta lediga lägenheter i specifikt område
      */
-    public List<Apartment> getAvailableApartmentsByArea(String area) {
+    public List<Apartment> getAvailableApartmentsByArea(Double area) {
         return apartmentRepository.findByAreaAndOccupiedFalse(area);
     }
 

@@ -99,7 +99,7 @@ public class ApartmentController {
      * Hämta lägenheter efter område
      */
     @GetMapping("/area/{area}")
-    public ResponseEntity<List<Apartment>> getApartmentsByArea(@PathVariable String area) {
+    public ResponseEntity<List<Apartment>> getApartmentsByArea(@PathVariable Double area) {
         List<Apartment> apartments = apartmentService.getApartmentsByArea(area);
         return ResponseEntity.ok(apartments);
     }
@@ -250,7 +250,7 @@ public class ApartmentController {
      * Hämta lediga lägenheter i specifikt område
      */
     @GetMapping("/available/area/{area}")
-    public ResponseEntity<List<Apartment>> getAvailableApartmentsByArea(@PathVariable String area) {
+    public ResponseEntity<List<Apartment>> getAvailableApartmentsByArea(@PathVariable Double area) {
         List<Apartment> apartments = apartmentService.getAvailableApartmentsByArea(area);
         return ResponseEntity.ok(apartments);
     }
