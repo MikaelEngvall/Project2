@@ -93,10 +93,9 @@ public interface IssueRepository extends JpaRepository<Issue, UUID> {
      * Sök felanmälningar genom namn, e-post eller ämne
      */
     @Query("SELECT i FROM Issue i WHERE " +
-           "LOWER(i.firstName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
-           "LOWER(i.lastName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
-           "LOWER(i.email) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
-           "LOWER(i.subject) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
+           "LOWER(i.reporterName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+           "LOWER(i.reporterEmail) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+           "LOWER(i.title) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
     Page<Issue> searchIssues(@Param("searchTerm") String searchTerm, Pageable pageable);
     
     /**
