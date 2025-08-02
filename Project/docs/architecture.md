@@ -61,6 +61,68 @@ graph LR
     H --> I
 ```
 
+## 📊 API-arkitektur (Implementerad)
+
+```mermaid
+graph TB
+    subgraph "Controllers (6 st) ✅"
+        A1[UserController]
+        A2[ApartmentController]
+        A3[TenantController]
+        A4[InterestController]
+        A5[IssueController]
+        A6[TaskController]
+    end
+    
+    subgraph "Services (6 st) ✅"
+        B1[UserService]
+        B2[ApartmentService]
+        B3[TenantService]
+        B4[InterestService]
+        B5[IssueService]
+        B6[TaskService]
+    end
+    
+    subgraph "Repositories (6 st) ✅"
+        C1[UserRepository]
+        C2[ApartmentRepository]
+        C3[TenantRepository]
+        C4[InterestRepository]
+        C5[IssueRepository]
+        C6[TaskRepository]
+    end
+    
+    subgraph "Models (6 st) ✅"
+        D1[User]
+        D2[Apartment]
+        D3[Tenant]
+        D4[Interest]
+        D5[Issue]
+        D6[Task]
+    end
+    
+    A1 --> B1
+    A2 --> B2
+    A3 --> B3
+    A4 --> B4
+    A5 --> B5
+    A6 --> B6
+    
+    B1 --> C1
+    B2 --> C2
+    B3 --> C3
+    B4 --> C4
+    B5 --> C5
+    B6 --> C6
+    
+    C1 --> D1
+    C2 --> D2
+    C3 --> D3
+    C4 --> D4
+    C5 --> D5
+    C6 --> D6
+```
+
 ## 📊 Databasarkitektur
 
 ```mermaid
@@ -70,10 +132,10 @@ erDiagram
         string firstName
         string lastName
         string email
-        enum role
-        string preferredLanguage
+        enum role "USER, ADMIN, SUPERADMIN"
+        string preferredLanguage "sv, en, bg, pl, sq, uk"
         boolean isActive
-        json permissions
+        string permissions "JSON array"
         string phone
         timestamp createdAt
         timestamp updatedAt
@@ -84,11 +146,11 @@ erDiagram
         string street
         string number
         string apartmentNumber
-        integer size
+        integer size "m²"
         integer floor
         string area
         integer rooms
-        decimal monthlyRent
+        decimal monthlyRent "precision 10, scale 2"
         string postalCode
         boolean occupied
         timestamp createdAt
@@ -98,6 +160,187 @@ erDiagram
     TENANT {
         uuid id PK
         string firstName
+        string lastName
+        string email
+        string phone
+        string personalNumber
+        uuid apartmentId FK
+        date moveInDate
+        date moveOutDate
+        decimal monthlyRent "precision 10, scale 2"
+        enum status "ACTIVE, TERMINATED, TERMINATED_NOT_MOVED_OUT"
+        string terminationReason
+        date terminationDate
+        timestamp createdAt
+        timestamp updatedAt
+    }
+    
+    INTEREST {
+        uuid id PK
+        string firstName
+        string lastName
+        string email
+        string phone
+        uuid apartmentId FK
+        enum status "PENDING, CONFIRMED, REJECTED"
+        date viewingDate
+        string viewingTime
+        boolean viewingConfirmed
+        boolean viewingEmailSent
+        timestamp viewingEmailSentDate
+        text notes
+        timestamp createdAt
+        timestamp updatedAt
+    }
+    
+    ISSUE {
+        uuid id PK
+        string firstName
+        string lastName
+        string email
+        string phone
+        uuid apartmentId FK
+        string subject
+        text description
+        enum priority "LOW, MEDIUM, HIGH, URGENT"
+        enum status "NEW, APPROVED, REJECTED"
+        date approvedDate
+        date rejectedDate
+        string rejectionReason
+        boolean emailSent
+        timestamp emailSentDate
+        timestamp createdAt
+        timestamp updatedAt
+    }
+    
+    TASK {
+        uuid id PK
+        string title
+        text description
+        uuid apartmentId FK
+        uuid assignedUserId FK
+        enum priority "LOW, MEDIUM, HIGH, URGENT"
+        enum status "PENDING, IN_PROGRESS, COMPLETED, CANCELLED, ON_HOLD"
+        timestamp dueDate
+        timestamp completedDate
+        double estimatedHours
+        double actualHours
+        double cost "precision 10, scale 2"
+        boolean emailSent
+        timestamp emailSentDate
+        timestamp createdAt
+        timestamp updatedAt
+        timestamp deletedAt "soft delete"
+    }
+    
+    USER ||--o{ TASK : "assigned to"
+    APARTMENT ||--o{ TENANT : "has"
+    APARTMENT ||--o{ INTEREST : "interested in"
+    APARTMENT ||--o{ ISSUE : "reported for"
+    APARTMENT ||--o{ TASK : "related to"
+```
+
+## 📋 Datatyper och Enum-värden
+
+### Primära datatyper
+- **UUID**: Alla primärnycklar och foreign keys
+- **String**: Namn, e-post, telefon, adresser, beskrivningar
+- **Integer**: Storlek, våning, rum, antal
+- **BigDecimal**: Monetära värden (precision 10, scale 2)
+- **Boolean**: Status-fält, flaggor
+- **LocalDate**: Datum utan tid (inflyttning, utflyttning, visning)
+- **LocalDateTime**: Datum med tid (skapande, uppdatering, förfallodatum)
+- **Double**: Timmar, kostnader (precision 10, scale 2)
+
+### Enum-värden
+
+#### UserRole
+- `USER` - Vanlig användare
+- `ADMIN` - Administratör
+- `SUPERADMIN` - Superadministratör
+
+#### TenantStatus
+- `ACTIVE` - Aktiv hyresgäst
+- `TERMINATED` - Avslutad kontrakt
+- `TERMINATED_NOT_MOVED_OUT` - Avslutad men inte utflyttad
+
+#### InterestStatus
+- `PENDING` - Väntande intresseanmälan
+- `CONFIRMED` - Bekräftad intresseanmälan
+- `REJECTED` - Avvisad intresseanmälan
+
+#### IssuePriority
+- `LOW` - Låg prioritet
+- `MEDIUM` - Medel prioritet
+- `HIGH` - Hög prioritet
+- `URGENT` - Akut prioritet
+
+#### IssueStatus
+- `NEW` - Ny felanmälan
+- `APPROVED` - Godkänd felanmälan
+- `REJECTED` - Avvisad felanmälan
+
+#### TaskPriority
+- `LOW` - Låg prioritet
+- `MEDIUM` - Medel prioritet
+- `HIGH` - Hög prioritet
+- `URGENT` - Akut prioritet
+
+#### TaskStatus
+- `PENDING` - Väntande uppgift
+- `IN_PROGRESS` - Pågående uppgift
+- `COMPLETED` - Slutförd uppgift
+- `CANCELLED` - Avbruten uppgift
+- `ON_HOLD` - Pausad uppgift
+
+### Språkkoder
+- `sv` - Svenska
+- `en` - Engelska
+- `bg` - Bulgariska
+- `pl` - Polska
+- `sq` - Albanska
+- `uk` - Ukrainska
+
+## 🚀 Implementation Status
+
+### ✅ Slutförda komponenter (Backend)
+- **Modeller**: 6/6 (100%) - User, Apartment, Tenant, Interest, Issue, Task
+- **Repositories**: 6/6 (100%) - Alla med omfattande sökmetoder
+- **Services**: 6/6 (100%) - Alla med business logic
+- **Controllers**: 6/6 (100%) - Alla REST endpoints implementerade
+- **Databas**: 100% - PostgreSQL-migrationer med indexes
+- **Kompilering**: ✅ - Alla 25 Java-filer kompilerar utan fel
+
+### 🔄 Pågående utveckling
+- **Säkerhetskonfiguration**: 0% - OAuth2 med PKCE
+- **Frontend**: 0% - Next.js 14 med TypeScript
+- **Autentisering**: 0% - JWT-token hantering
+
+### 📊 Teknisk status
+- **Backend**: 95% komplett
+- **Frontend**: 0% komplett
+- **Databas**: 100% komplett
+- **API**: 100% komplett
+
+### 🎯 Nästa steg
+1. **Säkerhetskonfiguration** (Prioritet 1)
+   - OAuth2 med PKCE implementation
+   - JWT-token hantering
+   - Role-based access control
+   - CORS-konfiguration
+
+2. **Frontend-implementation** (Prioritet 2)
+   - Next.js 14 setup
+   - shadcn/ui komponenter
+   - React Query integration
+   - OAuth2-autentisering
+
+3. **Testing och Deployment** (Prioritet 3)
+   - Unit-tester
+   - Integration-tester
+   - CI/CD pipeline
+   - Produktionsdeployment
+```
         string lastName
         string email
         string phone

@@ -275,6 +275,213 @@ För support eller frågor, kontakta:
 - **Teknisk support**: mikael.engvall.me@gmail.com
 - **Projektägare**: Duggals Fastigheter
 
+## 📋 Senaste uppdateringar
+
+### ✅ Slutförda komponenter
+- **Backend-struktur**: Alla modeller, repositories, services och controllers implementerade
+- **API-endpoints**: Komplett REST API för alla entiteter (6 controllers, 6 services, 6 repositories)
+- **Databas-schema**: PostgreSQL-migrationer med indexes och constraints
+- **Kompilering**: Alla 25 Java-filer kompilerar utan fel
+
+### 🔄 Pågående utveckling
+- **Säkerhetskonfiguration**: OAuth2 med PKCE implementation
+- **Frontend-implementation**: Next.js 14 med TypeScript
+- **Autentisering**: JWT-token hantering och role-based access control
+
+### 📊 Teknisk status
+- **Backend**: 95% komplett (saknas endast säkerhetskonfiguration)
+- **Frontend**: 0% komplett (kommer att implementeras nästa)
+- **Databas**: 100% komplett (migrationer och schema)
+- **API**: 100% komplett (alla endpoints implementerade)
+
+## 🗂️ Implementerade komponenter
+
+### Backend-struktur (100% komplett)
+- ✅ **Modeller** (6 st): User, Apartment, Tenant, Interest, Issue, Task
+- ✅ **Repositories** (6 st): UserRepository, ApartmentRepository, TenantRepository, InterestRepository, IssueRepository, TaskRepository
+- ✅ **Services** (6 st): UserService, ApartmentService, TenantService, InterestService, IssueService, TaskService
+- ✅ **Controllers** (6 st): UserController, ApartmentController, TenantController, InterestController, IssueController, TaskController
+
+### Datatyper och variabler
+
+#### User-modell
+```java
+UUID id                    // Primärnyckel
+String firstName           // Förnamn
+String lastName            // Efternamn
+String email               // E-postadress
+UserRole role              // USER, ADMIN, SUPERADMIN
+String preferredLanguage   // sv, en, bg, pl, sq, uk
+Boolean isActive           // Aktiveringsstatus
+String permissions         // JSON-array av behörigheter
+String phone               // Telefonnummer
+LocalDateTime createdAt    // Skapandedatum
+LocalDateTime updatedAt    // Uppdateringsdatum
+```
+
+#### Apartment-modell
+```java
+UUID id                    // Primärnyckel
+String street              // Gatuadress
+String number              // Husnummer
+String apartmentNumber     // Lägenhetsnummer
+Integer size               // Storlek i m²
+Integer floor              // Våning
+String area                // Område
+Integer rooms              // Antal rum
+BigDecimal monthlyRent     // Månadshyra
+String postalCode          // Postnummer
+Boolean occupied           // Upptagen/ledig
+LocalDateTime createdAt    // Skapandedatum
+LocalDateTime updatedAt    // Uppdateringsdatum
+```
+
+#### Tenant-modell
+```java
+UUID id                    // Primärnyckel
+String firstName           // Förnamn
+String lastName            // Efternamn
+String email               // E-postadress
+String phone               // Telefonnummer
+String personalNumber      // Personnummer
+Apartment apartment        // Koppling till lägenhet
+LocalDate moveInDate       // Inflyttningsdatum
+LocalDate moveOutDate      // Utflyttningsdatum
+BigDecimal monthlyRent     // Månadshyra
+TenantStatus status        // ACTIVE, TERMINATED, TERMINATED_NOT_MOVED_OUT
+String terminationReason   // Uppsägningsorsak
+LocalDate terminationDate  // Uppsägningsdatum
+LocalDateTime createdAt    // Skapandedatum
+LocalDateTime updatedAt    // Uppdateringsdatum
+```
+
+#### Interest-modell
+```java
+UUID id                    // Primärnyckel
+String firstName           // Förnamn
+String lastName            // Efternamn
+String email               // E-postadress
+String phone               // Telefonnummer
+Apartment apartment        // Koppling till lägenhet
+InterestStatus status      // PENDING, CONFIRMED, REJECTED
+LocalDate viewingDate      // Visningsdatum
+String viewingTime         // Visningstid
+Boolean viewingConfirmed   // Visning bekräftad
+Boolean viewingEmailSent   // E-post skickad
+LocalDateTime viewingEmailSentDate // E-post skickad datum
+String notes               // Anteckningar
+LocalDateTime createdAt    // Skapandedatum
+LocalDateTime updatedAt    // Uppdateringsdatum
+```
+
+#### Issue-modell
+```java
+UUID id                    // Primärnyckel
+String firstName           // Förnamn
+String lastName            // Efternamn
+String email               // E-postadress
+String phone               // Telefonnummer
+Apartment apartment        // Koppling till lägenhet
+String subject             // Ämne
+String description         // Beskrivning
+IssuePriority priority     // LOW, MEDIUM, HIGH, URGENT
+IssueStatus status         // NEW, APPROVED, REJECTED
+LocalDate approvedDate     // Godkännandedatum
+LocalDate rejectedDate     // Avvisningsdatum
+String rejectionReason     // Avvisningsorsak
+Boolean emailSent          // E-post skickad
+LocalDateTime emailSentDate // E-post skickad datum
+LocalDateTime createdAt    // Skapandedatum
+LocalDateTime updatedAt    // Uppdateringsdatum
+```
+
+#### Task-modell
+```java
+UUID id                    // Primärnyckel
+String title               // Titel
+String description         // Beskrivning
+Apartment apartment        // Koppling till lägenhet
+User assignedUser          // Tilldelad användare
+TaskPriority priority      // LOW, MEDIUM, HIGH, URGENT
+TaskStatus status          // PENDING, IN_PROGRESS, COMPLETED, CANCELLED, ON_HOLD
+LocalDateTime dueDate      // Förfallodatum
+LocalDateTime completedDate // Slutförd datum
+Double estimatedHours      // Beräknade timmar
+Double actualHours         // Faktiska timmar
+Double cost                // Kostnad
+Boolean emailSent          // E-post skickad
+LocalDateTime emailSentDate // E-post skickad datum
+LocalDateTime createdAt    // Skapandedatum
+LocalDateTime updatedAt    // Uppdateringsdatum
+LocalDateTime deletedAt    // Borttagningsdatum (soft delete)
+```
+
+### API-endpoints (100% komplett)
+
+#### User API (`/api/users`)
+- `GET /api/users` - Lista alla användare
+- `POST /api/users` - Skapa användare
+- `GET /api/users/{id}` - Hämta användare
+- `PUT /api/users/{id}` - Uppdatera användare
+- `DELETE /api/users/{id}` - Ta bort användare
+- `GET /api/users/active` - Aktiva användare
+- `GET /api/users/role/{role}` - Användare per roll
+- `GET /api/users/search` - Sök användare
+
+#### Apartment API (`/api/apartments`)
+- `GET /api/apartments` - Lista alla lägenheter
+- `POST /api/apartments` - Skapa lägenhet
+- `GET /api/apartments/{id}` - Hämta lägenhet
+- `PUT /api/apartments/{id}` - Uppdatera lägenhet
+- `DELETE /api/apartments/{id}` - Ta bort lägenhet
+- `GET /api/apartments/available` - Lediga lägenheter
+- `GET /api/apartments/occupied` - Upptagna lägenheter
+- `GET /api/apartments/search` - Sök lägenheter
+
+#### Tenant API (`/api/tenants`)
+- `GET /api/tenants` - Lista alla hyresgäster
+- `POST /api/tenants` - Skapa hyresgäst
+- `GET /api/tenants/{id}` - Hämta hyresgäst
+- `PUT /api/tenants/{id}` - Uppdatera hyresgäst
+- `DELETE /api/tenants/{id}` - Ta bort hyresgäst
+- `POST /api/tenants/{id}/move-in` - Registrera inflyttning
+- `POST /api/tenants/{id}/move-out` - Registrera utflyttning
+- `POST /api/tenants/{id}/terminate` - Avsluta kontrakt
+
+#### Interest API (`/api/interests`)
+- `GET /api/interests` - Lista alla intresseanmälningar
+- `POST /api/interests` - Skapa intresseanmälan
+- `GET /api/interests/{id}` - Hämta intresseanmälan
+- `PUT /api/interests/{id}` - Uppdatera intresseanmälan
+- `DELETE /api/interests/{id}` - Ta bort intresseanmälan
+- `POST /api/interests/{id}/schedule-viewing` - Boka visning
+- `POST /api/interests/{id}/confirm-viewing` - Bekräfta visning
+- `POST /api/interests/{id}/cancel-viewing` - Avboka visning
+
+#### Issue API (`/api/issues`)
+- `GET /api/issues` - Lista alla felanmälningar
+- `POST /api/issues` - Skapa felanmälan
+- `GET /api/issues/{id}` - Hämta felanmälan
+- `PUT /api/issues/{id}` - Uppdatera felanmälan
+- `DELETE /api/issues/{id}` - Ta bort felanmälan
+- `POST /api/issues/{id}/approve` - Godkänn felanmälan
+- `POST /api/issues/{id}/reject` - Avvisa felanmälan
+- `GET /api/issues/new` - Nya felanmälningar
+- `GET /api/issues/high-priority` - Högprioriterade felanmälningar
+
+#### Task API (`/api/tasks`)
+- `GET /api/tasks` - Lista alla uppgifter
+- `POST /api/tasks` - Skapa uppgift
+- `GET /api/tasks/{id}` - Hämta uppgift
+- `PUT /api/tasks/{id}` - Uppdatera uppgift
+- `DELETE /api/tasks/{id}` - Ta bort uppgift
+- `POST /api/tasks/{id}/complete` - Slutför uppgift
+- `POST /api/tasks/{id}/pause` - Pausa uppgift
+- `POST /api/tasks/{id}/resume` - Återuppta uppgift
+- `POST /api/tasks/{id}/cancel` - Avbryt uppgift
+- `GET /api/tasks/overdue` - Försenade uppgifter
+- `GET /api/tasks/high-priority` - Högprioriterade uppgifter
+
 ---
 
 **Version**: 4.1.0  
