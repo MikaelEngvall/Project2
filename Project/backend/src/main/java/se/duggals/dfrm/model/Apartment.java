@@ -100,7 +100,7 @@ public class Apartment {
     }
     
     public Apartment(String street, String number, String apartmentNumber, 
-                    Integer size, Integer floor, String area, Integer rooms, 
+                    Integer size, Integer floor, Double area, Integer rooms, 
                     BigDecimal monthlyRent, String postalCode) {
         this.street = street;
         this.number = number;
@@ -162,11 +162,11 @@ public class Apartment {
         this.floor = floor;
     }
     
-    public String getArea() {
+        public Double getArea() {
         return area;
     }
-    
-    public void setArea(String area) {
+
+    public void setArea(Double area) {
         this.area = area;
     }
     

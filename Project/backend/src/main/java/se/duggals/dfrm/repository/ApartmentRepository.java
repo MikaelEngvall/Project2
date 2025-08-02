@@ -97,7 +97,7 @@ public interface ApartmentRepository extends JpaRepository<Apartment, UUID> {
     /**
      * Hitta lediga lägenheter i specifikt område
      */
-    List<Apartment> findByAreaAndOccupiedFalse(String area);
+    List<Apartment> findByAreaAndOccupiedFalse(Double area);
     
     /**
      * Hitta lägenheter med specifik storlek och lediga
