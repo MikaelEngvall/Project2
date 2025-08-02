@@ -61,20 +61,7 @@ public interface IssueRepository extends JpaRepository<Issue, UUID> {
      */
     List<Issue> findByApartmentAndPriority(Apartment apartment, Issue.IssuePriority priority);
     
-    /**
-     * Hitta nya felanmälningar
-     */
-    List<Issue> findByStatusAndNew(Issue.IssueStatus status);
     
-    /**
-     * Hitta godkända felanmälningar
-     */
-    List<Issue> findByStatusAndApproved(Issue.IssueStatus status);
-    
-    /**
-     * Hitta avvisade felanmälningar
-     */
-    List<Issue> findByStatusAndRejected(Issue.IssueStatus status);
     
     /**
      * Hitta felanmälningar med hög prioritet

@@ -91,7 +91,7 @@ public interface ApartmentRepository extends JpaRepository<Apartment, UUID> {
            "LOWER(a.street) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
            "LOWER(a.number) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
            "LOWER(a.apartmentNumber) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
-           "LOWER(a.area) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
+           "CAST(a.area AS string) LIKE CONCAT('%', :searchTerm, '%')")
     Page<Apartment> searchApartments(@Param("searchTerm") String searchTerm, Pageable pageable);
     
     /**
@@ -127,7 +127,7 @@ public interface ApartmentRepository extends JpaRepository<Apartment, UUID> {
     /**
      * Räkna lägenheter per område
      */
-    long countByArea(String area);
+    long countByArea(Double area);
     
     /**
      * Räkna lägenheter per postnummer

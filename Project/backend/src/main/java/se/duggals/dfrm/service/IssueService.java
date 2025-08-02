@@ -146,14 +146,14 @@ public class IssueService {
      * Hämta godkända felanmälningar
      */
     public List<Issue> getApprovedIssues() {
-        return issueRepository.findByStatusAndApproved(Issue.IssueStatus.APPROVED);
+        return issueRepository.findByStatus(Issue.IssueStatus.APPROVED);
     }
 
     /**
      * Hämta avvisade felanmälningar
      */
     public List<Issue> getRejectedIssues() {
-        return issueRepository.findByStatusAndRejected(Issue.IssueStatus.REJECTED);
+        return issueRepository.findByStatus(Issue.IssueStatus.REJECTED);
     }
 
     /**

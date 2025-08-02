@@ -87,7 +87,7 @@ public interface TaskRepository extends JpaRepository<Task, UUID> {
     List<Task> findTasksDueThisWeek();
 
     // Hitta uppgifter som förfaller denna månad
-    @Query("SELECT t FROM Task t WHERE t.dueDate BETWEEN CURRENT_DATE AND CURRENT_DATE + INTERVAL '1 month'")
+    @Query("SELECT t FROM Task t WHERE t.dueDate >= CURRENT_DATE")
     List<Task> findTasksDueThisMonth();
 
     // Hitta uppgifter som skickade email
