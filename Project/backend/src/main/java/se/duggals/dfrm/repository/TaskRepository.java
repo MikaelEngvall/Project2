@@ -79,11 +79,11 @@ public interface TaskRepository extends JpaRepository<Task, UUID> {
     List<Task> findByApartmentIsNull();
 
     // Hitta uppgifter som förfaller idag
-    @Query("SELECT t FROM Task t WHERE DATE(t.dueDate) = CURRENT_DATE")
+    @Query("SELECT t FROM Task t WHERE t.dueDate >= CURRENT_DATE")
     List<Task> findTasksDueToday();
 
     // Hitta uppgifter som förfaller denna vecka
-    @Query("SELECT t FROM Task t WHERE t.dueDate BETWEEN CURRENT_DATE AND CURRENT_DATE + INTERVAL '7 days'")
+    @Query("SELECT t FROM Task t WHERE t.dueDate >= CURRENT_DATE")
     List<Task> findTasksDueThisWeek();
 
     // Hitta uppgifter som förfaller denna månad
