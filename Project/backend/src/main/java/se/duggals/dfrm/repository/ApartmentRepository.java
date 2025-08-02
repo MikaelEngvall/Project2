@@ -47,7 +47,7 @@ public interface ApartmentRepository extends JpaRepository<Apartment, UUID> {
     /**
      * Hitta lägenheter genom område
      */
-    List<Apartment> findByArea(String area);
+    List<Apartment> findByArea(Double area);
     
     /**
      * Hitta lägenheter genom postnummer

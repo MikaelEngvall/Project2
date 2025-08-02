@@ -72,7 +72,7 @@ public class ApartmentService {
     /**
      * Hämta lägenheter efter område
      */
-    public List<Apartment> getApartmentsByArea(String area) {
+    public List<Apartment> getApartmentsByArea(Double area) {
         return apartmentRepository.findByArea(area);
     }
 
