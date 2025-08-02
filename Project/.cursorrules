@@ -1,0 +1,113 @@
+{
+  "formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSaveMode": "file",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "javascript.preferences.importModuleSpecifier": "non-relative",
+  "editor.rulers": [100],
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "tailwindCSS.includeLanguages": {
+    "typescript": "javascript",
+    "typescriptreact": "javascript"
+  },
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/node_modules": true,
+    "**/.next": true,
+    "**/target": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/.next": true,
+    "**/target": true,
+    "**/dist": true
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[java]": {
+    "editor.defaultFormatter": "redhat.java"
+  },
+  "java.format.settings.url": ".eclipse-java-google-style.xml",
+
+  "custom.notes": {
+    "språk": "Svara alltid på svenska",
+    "kodstandard": {
+      "enumOchVariabler": "ALLA enum-värden och variabelnamn MÅSTE vara på engelska för konsistens och internationell standard",
+      "enumRegel": "Enum-värden ska använda UPPERCASE med UNDERSCORE för separering (t.ex. ACTIVE, TERMINATED, TERMINATED_NOT_MOVED_OUT)",
+      "variabelRegel": "Variabelnamn ska använda camelCase på engelska (t.ex. moveOutDate, tenantStatus, isActive)",
+      "lombokFörbud": "LOMBOK FUNGERAR INTE I DETTA PROJEKT! Använd ALDRIG @Getter, @Setter, @Data, @Builder eller andra Lombok-annoteringar. Skapa ALLTID manuella getters och setters för alla Java-klasser. Detta gäller för alla modeller, DTOs och andra klasser i backend."
+    },
+    "struktur": {
+      "frontend": "Front end ligger i frontend katalogen",
+      "backend": "Backend ligger i backend katalogen"
+    },
+    "javaRegler": {
+      "lombokFörbud": "LOMBOK FUNGERAR INTE I DETTA PROJEKT! Använd ALDRIG @Getter, @Setter, @Data, @Builder eller andra Lombok-annoteringar. Skapa ALLTID manuella getters och setters för alla Java-klasser.",
+      "getterSetterMönster": "För varje fält i en Java-klass, skapa ALLTID: 1) En getter-metod (public ReturnType getFieldName()), 2) En setter-metod (public void setFieldName(ReturnType fieldName)), 3) En tom konstruktor (public ClassName() {}), 4) En fullständig konstruktor med alla parametrar",
+      "kompilering": "Efter ändringar i Java-kod, kör ALLTID 'mvn clean compile' för att verifiera att alla Lombok-problem är lösta",
+      "felhantering": "Om du ser 'cannot find symbol' fel relaterade till getter/setter-metoder, kontrollera att manuella metoder finns istället för Lombok-annoteringar"
+    },
+    "kommandon": {
+      "användMCP": "Använd alltid MCP när du behöver det",
+      "användSeparatKommando": "\"&&\" i kommandon fungerar inte, du bör användas \";\" istället",
+      "användEjGrep": "grep fungerar inte i powershell eller windows cmd, använd inte grep, detta är INTE en Linux-miljö",
+      "backendStart": "För att starta backend-servern: ALLTID använd 'cd backend ; mvn spring-boot:run' - Maven måste köras från backend-katalogen där pom.xml finns",
+      "powershellBegränsningar": {
+        "långaKommandon": "PowerShell har problem med långa SQL-kommandon och kan krascha med ArgumentOutOfRangeException. Dela upp långa kommandon i kortare delar eller skapa temporära SQL-filer",
+        "redirectOperator": "PowerShell stödjer inte '<' operatorn för input redirection. Använd 'Get-Content file.sql | mysql ...' istället för 'mysql ... < file.sql'",
+        "sqlKommandon": "För komplexa SQL-operationer, skapa en .sql fil och använd 'Get-Content file.sql | mysql -u root -p1234 fhs' eller kör kommandon separat"
+      }
+    },
+    "miljö": {
+      "os": "Windows 11 miljö"
+    },
+    "databas": {
+      "namn": "fhs",
+      "användare": "root",
+      "lösenord": "1234",
+      "sqlkommandoFormat": "SQL-kommandon i powershell måste göras i detta format: mysql -u root -p1234 fhs -e \"DITT SQL-KOMMANDO HÄR\""
+    },
+    "dokumentation": {
+      "uppdateraReadme": "Uppdatera ALLTID README.md när du gör ändringar i projektet - lägg till nya funktioner, optimeringar, bugfixar etc. i relevant sektion",
+      "readmeStruktur": "README.md ska innehålla aktuell information om alla funktioner, teknisk stack, installation och senaste uppdateringar"
+    },
+    "systemarkitektur": {
+      "diagramPrioritet": "ALLTID kontrollera systemdiagram och arkitekturdokumentation INNAN några ändringar görs",
+      "arkitekturRegler": {
+        "kontrollförändring": "Innan någon ändring görs, kontrollera ALLTID hur den påverkar systemets arkitektur genom att studera diagrammen",
+        "valideraÄndringar": "Efter ändringar, verifiera att de följer arkitekturdiagrammen och uppdatera dokumentationen vid behov",
+        "korsreferenser": "Kontrollera ALLTID korsreferenser i diagrammen för att förstå hur en komponent påverkar andra delar av systemet"
+      },
+      "säkerhetskontroller": {
+        "autentisering": "Verifiera JWT och auth-flöden mot diagrammen innan ändringar i API eller autentisering",
+        "apiSäkerhet": "Kontrollera säkerhetslager i diagrammen innan API-ändringar"
+      },
+      "deployment": {
+        "preDeployment": "Innan deployment, verifiera att alla ändringar följer arkitekturdiagrammen",
+        "postDeployment": "Efter deployment, validera att systemet fortfarande följer arkitekturdiagrammen"
+      }
+    }
+  }
+}

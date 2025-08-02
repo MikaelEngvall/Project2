@@ -1,0 +1,585 @@
+{
+  "project_name": "DFRM - Duggals Fastigheter Management System",
+  "version": "4.1.0",
+  "description": "Robust fastighetshanteringssystem byggt med SOLID-principer, säkerhetsförst-arkitektur och modern enterprise stack",
+  
+  "system_overview": {
+    "purpose": "Fastighetshanteringssystem för Duggals Fastigheter med fokus på hyresgästhantering, felanmälningar, intresseanmälningar och uppgiftshantering",
+    "target_users": ["Fastighetsägare", "Fastighetsförvaltare", "Administratörer"],
+    "core_features": [
+      "Hyresgästhantering med uppsägning och utflyttning",
+      "Felanmälningssystem med godkännande/avvisning",
+      "Intresseanmälningar med visningsbokning",
+      "Uppgiftshantering med kommentarer",
+      "Lägenhetshantering med nycklar",
+      "E-postintegration för automatisk datainmatning",
+      "Kalenderfunktionalitet för visningar",
+      "Rapportgenerering och statistik",
+      "Audit logging och revisionsspårning"
+    ]
+  },
+
+  "technical_requirements": {
+    "frontend": {
+      "framework": "Next.js 14",
+      "react_version": "React 18",
+      "language": "TypeScript 5.0+",
+      "styling": "Tailwind CSS med shadcn/ui komponenter",
+      "state_management": "React Query (@tanstack/react-query)",
+      "authentication": "OAuth2 Authorization Code Flow med PKCE",
+      "internationalization": "Custom i18n system med fallback och lazy loading",
+      "encryption": "Secure, HttpOnly cookies (ej localStorage)",
+      "build_tool": "Vite för utveckling, Next.js för produktion"
+    },
+    "backend": {
+      "framework": "Spring Boot 3",
+      "language": "Java 17",
+      "database": "PostgreSQL 14+",
+      "orm": "Spring Data JPA med Hibernate",
+      "migration": "Flyway",
+      "authentication": "Spring Security OAuth2",
+      "email": "JavaMail API med IMAP",
+      "cache": "Redis för caching",
+      "build_tool": "Maven 3.8+"
+    },
+    "database": {
+      "primary": "PostgreSQL (lokalt och Render)",
+      "encoding": "UTF-8 för svenska tecken",
+      "naming_convention": "snake_case för tabeller och kolumner",
+      "uuid": "Använd UUID som primärnycklar",
+      "soft_delete": "deleted_at på känsliga entiteter",
+      "timestamps": "created_at, updated_at för alla entiteter"
+    },
+    "deployment": {
+      "frontend": "Vercel",
+      "backend": "Render.com",
+      "database": "Render PostgreSQL",
+      "environment": "Separata miljöer för dev, staging, prod"
+    }
+  },
+
+  "architecture_principles": {
+    "solid_principles": {
+      "srp": "95% - Tydlig separation av ansvar",
+      "ocp": "90% - Öppen för utökning, stängd för modifiering", 
+      "lsp": "95% - Alla implementationer är utbytbara",
+      "isp": "90% - Minimala, specifika interfaces",
+      "dip": "90% - Beror på abstraktioner"
+    },
+    "design_patterns": [
+      "Repository Pattern för dataåtkomst",
+      "Service Layer Pattern för affärslogik",
+      "Factory Pattern för objektkreation",
+      "Observer Pattern för event handling",
+      "Strategy Pattern för validering",
+      "Command Pattern för API-anrop"
+    ],
+    "security_principles": [
+      "Defense in Depth",
+      "Principle of Least Privilege", 
+      "Input Validation",
+      "Output Encoding",
+      "Secure Communication (HTTPS)",
+      "OAuth2 med rotating refresh tokens"
+    ]
+  },
+
+  "frontend_architecture": {
+    "folder_structure": {
+      "src/": {
+        "app/": {
+          "dashboard/": "Dashboard pages med layout",
+          "login/": "Autentiseringssidor",
+          "pages/": "Övriga sidor utan dashboard layout"
+        },
+        "components/": {
+          "ui/": "Shadcn/ui komponenter",
+          "shared/": "Delade komponenter (Table, Modal, etc.)",
+          "common/": "Vanliga komponenter"
+        },
+        "hooks/": "Custom React hooks",
+        "utils/": "Utility functions",
+        "types/": "TypeScript type definitions",
+        "contexts/": "React contexts",
+        "locales/": "Översättningsfiler"
+      }
+    },
+    "state_management": {
+      "form_state": {
+        "hook": "useFormState med SOLID-principer",
+        "interfaces": ["FormStateConfig", "FormState", "FormActions"],
+        "validation": "Inbyggd validering med custom rules"
+      },
+      "error_handling": {
+        "centralized": "ErrorHandlingService med specifika interfaces",
+        "types": ["ApiError", "ValidationError", "BusinessError", "NetworkError"],
+        "handlers": ["ApiErrorHandler", "ValidationErrorHandler", "BusinessErrorHandler", "NetworkErrorHandler"]
+      },
+      "validation": {
+        "service": "ValidationService med separata interfaces",
+        "rules": ["RequiredRule", "MinLengthRule", "EmailRule", "DateRule"],
+        "schemas": "Typade scheman för olika entiteter"
+      }
+    },
+    "api_client": {
+      "structure": "Centraliserad apiClient med alla endpoints",
+      "forbidden": "ALDRIG använda axios direkt eller andra HTTP-klienter",
+      "error_handling": "Centraliserad felhantering i apiClient",
+      "authentication": "OAuth2 token interceptor",
+      "endpoints": {
+        "auth": "Autentisering",
+        "apartments": "Lägenhetshantering", 
+        "tenants": "Hyresgästhantering",
+        "interests": "Intresseanmälningar",
+        "issues": "Felanmälningar",
+        "tasks": "Uppgiftshantering",
+        "keys": "Nyckelhantering",
+        "users": "Användarhantering",
+        "stats": "Statistik"
+      }
+    },
+    "components": {
+      "shared": ["StandardModal", "Table", "HeaderBar", "DashboardCard", "Toast"],
+      "contexts": ["AuthContext", "ThemeContext", "LanguageContext"],
+      "hooks": ["useToast", "useTranslation", "usePrefetch", "useFormState"]
+    }
+  },
+
+  "backend_architecture": {
+    "folder_structure": {
+      "src/main/java/se/duggals/dfrm/": {
+        "controller/": "REST controllers",
+        "service/": "Business logic services",
+        "model/": "Domain models",
+        "repository/": "Data access repositories",
+        "dto/": "Data transfer objects",
+        "config/": "Configuration classes",
+        "security/": "Security configuration",
+        "util/": "Utility classes"
+      },
+      "src/main/resources/": {
+        "application.properties": "Base configuration",
+        "application-dev.properties": "Development configuration",
+        "application-prod.properties": "Production configuration",
+        "db/migration/": "Flyway migrations"
+      }
+    },
+    "layers": {
+      "controller": "REST endpoints med validering",
+      "service": "Business logic med transaktioner",
+      "repository": "Data access med Spring Data JPA",
+      "model": "Domain entities med JPA annotations"
+    },
+    "security": {
+      "oauth2": "OAuth2 Authorization Code Flow med PKCE",
+      "roles": ["USER", "ADMIN", "SUPERADMIN"],
+      "permissions": "Granular behörighetskontroll",
+      "cors": "Cross-origin resource sharing konfiguration"
+    }
+  },
+
+  "database_schema": {
+    "entities": {
+      "user": {
+        "fields": ["id", "firstName", "lastName", "email", "role", "preferredLanguage", "isActive", "permissions", "phone", "createdAt", "updatedAt"],
+        "relations": []
+      },
+      "apartment": {
+        "fields": ["id", "street", "number", "apartmentNumber", "size", "floor", "area", "rooms", "monthlyRent", "postalCode", "occupied", "createdAt", "updatedAt"],
+        "relations": ["tenant", "interests", "issues", "tasks", "keys"]
+      },
+      "tenant": {
+        "fields": ["id", "firstName", "lastName", "email", "phone", "apartmentId", "moveInDate", "moveOutDate", "status", "createdAt", "updatedAt", "deletedAt"],
+        "relations": ["apartment"]
+      },
+      "former_tenant": {
+        "fields": ["id", "name", "email", "phone", "apartmentId", "moveInDate", "moveOutDate", "createdAt", "updatedAt"],
+        "relations": ["apartment"]
+      },
+      "interest": {
+        "fields": ["id", "name", "email", "phone", "apartmentId", "message", "status", "applicationDate", "viewingDate", "viewingTime", "viewingHost", "notes", "createdAt", "updatedAt", "deletedAt"],
+        "relations": ["apartment"]
+      },
+      "issue": {
+        "fields": ["id", "title", "description", "status", "priority", "dueDate", "estimatedHours", "apartmentId", "assigneeId", "reporterName", "reporterEmail", "reporterPhone", "createdAt", "updatedAt", "deletedAt"],
+        "relations": ["apartment", "assignee", "task"]
+      },
+      "task": {
+        "fields": ["id", "title", "description", "status", "priority", "dueDate", "estimatedHours", "apartmentId", "assignedToId", "createdById", "createdAt", "updatedAt"],
+        "relations": ["apartment", "assignedTo", "createdBy", "comments"]
+      },
+      "task_comment": {
+        "fields": ["id", "taskId", "content", "createdById", "createdAt", "updatedAt"],
+        "relations": ["task", "createdBy"]
+      },
+      "key": {
+        "fields": ["id", "apartmentId", "keyType", "location", "status", "createdAt", "updatedAt"],
+        "relations": ["apartment"]
+      },
+      "audit_log": {
+        "fields": ["id", "userId", "action", "entity", "entityId", "ipAddress", "timestamp"],
+        "relations": ["user"]
+      },
+      "notification_log": {
+        "fields": ["id", "userId", "event", "channel", "status", "timestamp"],
+        "relations": ["user"]
+      }
+    },
+    "relations": {
+      "apartment_tenant": "One-to-One (en lägenhet har högst en aktiv hyresgäst)",
+      "apartment_former_tenant": "One-to-Many (en lägenhet kan ha flera tidigare hyresgäster)",
+      "apartment_interest": "One-to-Many (en lägenhet kan ha flera intresseanmälningar)",
+      "apartment_issue": "One-to-Many (en lägenhet kan ha flera felanmälningar)",
+      "apartment_task": "One-to-Many (en lägenhet kan ha flera uppgifter)",
+      "apartment_key": "One-to-Many (en lägenhet kan ha flera nycklar)",
+      "issue_task": "One-to-One (issues konverteras till tasks vid godkännande)",
+      "task_comment": "One-to-Many (uppgifter kan ha flera kommentarer)"
+    }
+  },
+
+  "api_endpoints": {
+    "authentication": {
+      "POST /api/auth/login": "OAuth2 login",
+      "POST /api/auth/refresh": "Token rotation",
+      "POST /api/auth/logout": "Logout"
+    },
+    "apartments": {
+      "GET /api/apartments": "Lista lägenheter",
+      "POST /api/apartments": "Skapa lägenhet",
+      "PUT /api/apartments/{id}": "Uppdatera lägenhet",
+      "DELETE /api/apartments/{id}": "Ta bort lägenhet",
+      "GET /api/apartments/{id}/tenant": "Hämta hyresgäst för lägenhet"
+    },
+    "tenants": {
+      "GET /api/tenants": "Lista hyresgäster",
+      "POST /api/tenants": "Skapa hyresgäst",
+      "PUT /api/tenants/{id}": "Uppdatera hyresgäst",
+      "DELETE /api/tenants/{id}": "Soft delete hyresgäst",
+      "POST /api/tenants/{id}/terminate": "Säg upp hyresgäst",
+      "POST /api/tenants/{id}/move-out": "Flytta ut hyresgäst"
+    },
+    "interests": {
+      "GET /api/interests": "Lista intresseanmälningar",
+      "POST /api/interests": "Skapa intresseanmälan",
+      "PUT /api/interests/{id}": "Uppdatera intresseanmälan",
+      "DELETE /api/interests/{id}": "Soft delete intresseanmälan",
+      "POST /api/interests/{id}/book-viewing": "Boka visning",
+      "POST /api/interests/{id}/send-viewing-email": "Skicka visningsmail",
+      "POST /api/interests/check-emails": "Kontrollera e-post",
+      "GET /api/interests/report/filtered": "Generera rapport"
+    },
+    "issues": {
+      "GET /api/issues": "Lista felanmälningar",
+      "POST /api/issues": "Skapa felanmälan",
+      "PUT /api/issues/{id}": "Uppdatera felanmälan",
+      "DELETE /api/issues/{id}": "Soft delete felanmälan",
+      "POST /api/issues/{id}/approve": "Godkänn felanmälan",
+      "POST /api/issues/{id}/reject": "Avvisa felanmälan",
+      "POST /api/issues/check-emails": "Kontrollera e-post",
+      "GET /api/issues/new": "Nya felanmälningar",
+      "GET /api/issues/status/{status}": "Felanmälningar per status"
+    },
+    "tasks": {
+      "GET /api/tasks": "Lista uppgifter",
+      "POST /api/tasks": "Skapa uppgift",
+      "PUT /api/tasks/{id}": "Uppdatera uppgift",
+      "DELETE /api/tasks/{id}": "Ta bort uppgift",
+      "GET /api/tasks/status/{status}": "Uppgifter per status",
+      "GET /api/tasks/user/{userId}": "Uppgifter per användare",
+      "POST /api/tasks/{id}/send-email": "Skicka e-post för uppgift"
+    },
+    "task_comments": {
+      "GET /api/task-comments": "Lista kommentarer",
+      "POST /api/task-comments": "Skapa kommentar",
+      "PUT /api/task-comments/{id}": "Uppdatera kommentar",
+      "DELETE /api/task-comments/{id}": "Ta bort kommentar"
+    },
+    "keys": {
+      "GET /api/keys": "Lista nycklar",
+      "POST /api/keys": "Skapa nyckel",
+      "PUT /api/keys/{id}": "Uppdatera nyckel",
+      "DELETE /api/keys/{id}": "Ta bort nyckel"
+    },
+    "users": {
+      "GET /api/users": "Lista användare",
+      "POST /api/users": "Skapa användare",
+      "PUT /api/users/{id}": "Uppdatera användare",
+      "DELETE /api/users/{id}": "Ta bort användare"
+    }
+  },
+
+  "business_logic": {
+    "tenant_management": {
+      "termination": {
+        "notice_period": "3 månader",
+        "status_flow": ["ACTIVE", "TERMINATED_NOT_MOVED_OUT", "TERMINATED"],
+        "automatic_moveout": "Automatisk utflyttning efter uppsägningstid",
+        "archiving": "Arkivera i former_tenants vid utflyttning"
+      },
+      "move_out": {
+        "immediate": "Omedelbar utflyttning",
+        "apartment_release": "Frigör lägenheten omedelbart",
+        "archiving": "Arkivera hyresgäst i former_tenants"
+      }
+    },
+    "issue_management": {
+      "approval_flow": {
+        "new": "Status NEW vid skapande",
+        "approval": "Godkänn med datum och tidsuppskattning",
+        "task_creation": "Skapa task vid godkännande",
+        "email_notification": "Skicka e-post till anmälaren + kopia"
+      },
+      "rejection_flow": {
+        "rejection": "Avvisa med orsak",
+        "email_notification": "Skicka avvisningsmail",
+        "status_update": "Uppdatera status till REJECTED"
+      }
+    },
+    "interest_management": {
+      "email_processing": {
+        "imap_connection": "Anslut till IMAP-server",
+        "address_parsing": "Parsa lägenhetsadress från e-post",
+        "case_insensitive": "Case-insensitive adressmatchning",
+        "duplicate_check": "Kontrollera efter dubbletter"
+      },
+      "viewing_booking": {
+        "date_validation": "Validera datumformat YYYY-MM-DD",
+        "time_validation": "Validera tidsformat HH:mm",
+        "host_assignment": "Tilldela visningsvärd",
+        "email_notification": "Skicka bekräftelsemail"
+      }
+    }
+  },
+
+  "security_requirements": {
+    "authentication": {
+      "protocol": "OAuth2 Authorization Code Flow med PKCE",
+      "tokens": "Rotatable refresh tokens",
+      "storage": "HttpOnly cookies (ej localStorage)",
+      "session": "Idle timeout + re-auth"
+    },
+    "authorization": {
+      "role_based": "Rollbaserad åtkomstkontroll",
+      "permission_matrix": {
+        "USER": ["Se lägenheter", "Se kalender"],
+        "ADMIN": ["Fullständig åtkomst förutom användarhantering"],
+        "SUPERADMIN": ["Fullständig åtkomst inklusive användarhantering"]
+      }
+    },
+    "data_protection": {
+      "input_validation": "Strikt inputvalidering",
+      "sql_injection": "Prepared statements",
+      "xss_protection": "Output encoding",
+      "csrf_protection": "CSRF tokens"
+    },
+    "logging": {
+      "audit_log": "All access och ändringar",
+      "notification_log": "Allt som skickas till användare"
+    }
+  },
+
+  "performance_requirements": {
+    "frontend": {
+      "loading_time": "< 2 sekunder för första laddning",
+      "react_query": "Caching och background updates",
+      "lazy_loading": "Code splitting och lazy loading",
+      "optimization": "Bundle optimization och tree shaking"
+    },
+    "backend": {
+      "response_time": "< 300ms för API-anrop",
+      "caching": "Redis caching för statiska data",
+      "database": "Optimized queries med indexes",
+      "connection_pooling": "Database connection pooling"
+    },
+    "database": {
+      "indexes": "Strategiska indexes för sökningar",
+      "query_optimization": "Optimized queries",
+      "connection_limits": "Appropriate connection limits"
+    }
+  },
+
+  "testing_strategy": {
+    "frontend": {
+      "unit_tests": "Jest för komponenter och hooks",
+      "integration_tests": "Testing Library för komponentintegration",
+      "e2e_tests": "Playwright för end-to-end tester",
+      "coverage": "Minimum 80% kodtäckning"
+    },
+    "backend": {
+      "unit_tests": "JUnit för services och utilities",
+      "integration_tests": "TestContainers för databastester",
+      "api_tests": "REST Assured för API-tester",
+      "coverage": "Minimum 80% kodtäckning"
+    }
+  },
+
+  "deployment_requirements": {
+    "environment_variables": {
+      "frontend": {
+        "NEXT_PUBLIC_API_URL": "Backend API URL",
+        "NEXT_PUBLIC_ENVIRONMENT": "Environment (dev/staging/prod)"
+      },
+      "backend": {
+        "SPRING_PROFILES_ACTIVE": "Active profile",
+        "DATABASE_URL": "PostgreSQL connection string",
+        "JWT_SECRET": "JWT signing secret",
+        "EMAIL_HOST": "SMTP host",
+        "EMAIL_USERNAME": "SMTP username",
+        "EMAIL_PASSWORD": "SMTP password"
+      }
+    },
+    "ci_cd": {
+      "github_actions": "Automated testing och deployment",
+      "vercel": "Frontend deployment",
+      "render": "Backend deployment",
+      "database_migrations": "Automated Flyway migrations"
+    }
+  },
+
+  "coding_standards": {
+    "typescript": {
+      "strict_mode": "Strict TypeScript configuration",
+      "naming": "camelCase för variabler och funktioner",
+      "interfaces": "Interface-first development",
+      "types": "Explicit typing över implicit"
+    },
+    "java": {
+      "lombok_forbidden": "ALDRIG använda Lombok - skapa manuella getters/setters",
+      "naming": "camelCase för metoder och variabler",
+      "annotations": "Minimala annotations",
+      "documentation": "JavaDoc för publika metoder"
+    },
+    "database": {
+      "naming": "snake_case för tabeller och kolumner",
+      "constraints": "Appropriate foreign key constraints",
+      "indexes": "Strategiska indexes",
+      "migrations": "Versioned migrations med Flyway"
+    }
+  },
+
+  "forbidden_patterns": {
+    "frontend": [
+      "ALDRIG använda axios direkt - endast apiClient",
+      "ALDRIG implementera egen felhantering utanför apiClient",
+      "ALDRIG använda localStorage för känslig data",
+      "ALDRIG hårdkoda API URLs"
+    ],
+    "backend": [
+      "ALDRIG använda Lombok annotations",
+      "ALDRIG exponera känslig data i logs",
+      "ALDRIG använda String concatenation för SQL",
+      "ALDRIG skippa input validation"
+    ]
+  },
+
+  "required_features": {
+    "tenant_management": {
+      "edit_modal": "EditTenantModal med knappar för uppsägning och utflyttning",
+      "termination_modal": "TerminationModal för uppsägningsregistrering",
+      "status_indicators": "Färgkodade statusindikatorer",
+      "automatic_processing": "Automatisk statusuppdatering baserat på datum"
+    },
+    "issue_management": {
+      "approval_modal": "ApproveIssueEmailModal med datum och tidsuppskattning",
+      "email_integration": "Automatisk e-posthantering",
+      "task_conversion": "Automatisk konvertering till tasks",
+      "comment_system": "Chat-liknande kommentarsystem"
+    },
+    "interest_management": {
+      "email_reader": "EmailReaderService för automatisk datainmatning",
+      "address_parser": "AddressParser för adressvalidering",
+      "viewing_booking": "Komplett visningsbokningssystem",
+      "smart_filtering": "Smart datumfiltrering för visningar"
+    },
+    "calendar_functionality": {
+      "filtered_view": "Endast framtida visningar visas",
+      "date_filtering": "Automatisk filtrering av passerade visningar",
+      "real_time_updates": "Real-time data via React Query"
+    }
+  },
+
+  "error_handling": {
+    "frontend": {
+      "centralized": "Centraliserad error handling via ErrorHandlingService",
+      "types": ["ApiError", "ValidationError", "BusinessError", "NetworkError"],
+      "toast_notifications": "Användarvänliga felmeddelanden",
+      "logging": "Strukturerad loggning för debugging"
+    },
+    "backend": {
+      "global_exception_handler": "Global exception handler",
+      "validation_errors": "Strukturerade valideringsfel",
+      "business_logic_errors": "Affärsregel-fel",
+      "logging": "Strukturerad loggning med logback"
+    }
+  },
+
+  "internationalization": {
+    "supported_languages": ["sv", "en", "bg", "pl", "sq", "uk"],
+    "translation_files": "JSON-baserade översättningsfiler",
+    "dynamic_loading": "Dynamisk laddning av språkfiler",
+    "user_preference": "Användarpreferens för språk"
+  },
+
+  "monitoring_and_logging": {
+    "frontend": {
+      "error_tracking": "Error boundary för React-komponenter",
+      "performance_monitoring": "Web Vitals tracking",
+      "user_analytics": "Anonym användaranalys"
+    },
+    "backend": {
+      "application_logs": "Strukturerad loggning med logback",
+      "database_logs": "SQL query logging för debugging",
+      "performance_monitoring": "Response time monitoring",
+      "audit_logging": "Alla användaråtgärder loggas"
+    }
+  },
+
+  "documentation_requirements": {
+    "code_documentation": "JSDoc för TypeScript, JavaDoc för Java",
+    "api_documentation": "Swagger/OpenAPI för API-dokumentation",
+    "architecture_diagrams": "Mermaid-diagram för systemarkitektur",
+    "deployment_guides": "Steg-för-steg deployment-instruktioner"
+  },
+
+  "quality_assurance": {
+    "code_quality": {
+      "eslint": "Strict ESLint configuration",
+      "prettier": "Code formatting med Prettier",
+      "sonarqube": "Code quality analysis",
+      "type_safety": "Strict TypeScript checking"
+    },
+    "security_scanning": {
+      "dependency_check": "Automated dependency vulnerability scanning",
+      "code_scanning": "Static code analysis för säkerhetsproblem",
+      "penetration_testing": "Regular security testing"
+    }
+  },
+
+  "development_workflow": {
+    "version_control": "Git med conventional commits",
+    "branch_strategy": "GitHub Flow med feature branches",
+    "code_review": "Mandatory code review för alla PRs",
+    "testing": "Automated testing i CI/CD pipeline"
+  },
+
+  "success_criteria": {
+    "functional": [
+      "Alla core features fungerar korrekt",
+      "SOLID-compliance på 92%+",
+      "Performance krav uppfyllda",
+      "Security requirements implementerade"
+    ],
+    "technical": [
+      "Type safety genomgående",
+      "Error handling centraliserad",
+      "Testing coverage 80%+",
+      "Documentation komplett"
+    ],
+    "user_experience": [
+      "Intuitiv användarinterface",
+      "Responsiv design",
+      "Snabb laddningstid",
+      "Tillgänglighet (WCAG 2.1)"
+    ]
+  }
+} 
