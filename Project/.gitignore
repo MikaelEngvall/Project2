@@ -3,13 +3,12 @@ node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-.pnpm-debug.log*
 
-# Production builds
+# Build outputs
+dist/
+build/
 .next/
 out/
-build/
-dist/
 
 # Environment variables
 .env
@@ -17,41 +16,30 @@ dist/
 .env.development.local
 .env.test.local
 .env.production.local
-.env2
 
-# IDE and editor files
+# IDE files
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
 
-# OS generated files
+# OS files
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
 Thumbs.db
 
 # Logs
-logs
+logs/
 *.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
 
 # Runtime data
-pids
+pids/
 *.pid
 *.seed
 *.pid.lock
 
 # Coverage directory used by tools like istanbul
 coverage/
-*.lcov
 
 # nyc test coverage
 .nyc_output
@@ -62,15 +50,6 @@ jspm_packages/
 # Optional npm cache directory
 .npm
 
-# Optional eslint cache
-.eslintcache
-
-# Microbundle cache
-.rpt2_cache/
-.rts2_cache_cjs/
-.rts2_cache_es/
-.rts2_cache_umd/
-
 # Optional REPL history
 .node_repl_history
 
@@ -80,30 +59,39 @@ jspm_packages/
 # Yarn Integrity file
 .yarn-integrity
 
+# dotenv environment variables file
+.env
+
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 .parcel-cache
 
-# Next.js build output
+# next.js build output
 .next
 
-# Nuxt.js build / generate output
+# nuxt.js build output
 .nuxt
-dist
 
-# Gatsby files
-.cache/
-public
+# vuepress build output
+.vuepress/dist
 
-# Storybook build outputs
-.out
-.storybook-out
+# Serverless directories
+.serverless
 
-# Temporary folders
-tmp/
-temp/
+# FuseBox cache
+.fusebox/
 
-# Java specific
+# DynamoDB Local files
+.dynamodb/
+
+# TernJS port file
+.tern-port
+
+# Stores VSCode versions used for testing VSCode extensions
+.vscode-test
+
+# Java
+target/
 *.class
 *.jar
 *.war
@@ -124,123 +112,36 @@ buildNumber.properties
 .mvn/timing.properties
 .mvn/wrapper/maven-wrapper.jar
 
-# Gradle
-.gradle
-build/
-!gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-# IntelliJ IDEA
-.idea/
-*.iws
-*.iml
-*.ipr
-
-# Eclipse
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-
-# NetBeans
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-# VS Code
-.vscode/
+# Spring Boot
+*.log
+application-*.properties
+!application.properties
+!application-dev.properties
+!application-prod.properties
 
 # Database
 *.db
 *.sqlite
 *.sqlite3
 
-# Application specific
-uploads/
-temp/
-cache/
-
-# Security
-secrets/
-keys/
-*.pem
-*.key
-*.crt
-*.p12
-*.pfx
-
-# Testing
-coverage/
-.nyc_output/
-test-results/
-playwright-report/
-test-results.xml
-
-# Docker
-.dockerignore
-Dockerfile
-docker-compose.yml
-docker-compose.override.yml
-
-# Terraform
-*.tfstate
-*.tfstate.*
-.terraform/
-.terraform.lock.hcl
-
-# Kubernetes
-*.kubeconfig
-
-# Local development
-.local/
-local/
-
-# Backup files
-*.bak
-*.backup
-*.old
-
-# Temporary files
-*.tmp
-*.temp
-
-# Lock files (keep package-lock.json and yarn.lock)
-# package-lock.json
-# yarn.lock
-
-# TypeScript
-*.tsbuildinfo
-
-# Vercel
-.vercel
-
-# Turbo
-.turbo
-
-# Sentry
-.sentryclirc
-
-# Database migrations (keep structure, ignore data)
-# db/migration/*.sql
-
-# Application logs
-logs/
-*.log
-
-# Performance monitoring
-.perf/
-
-# Security scanning
-.snyk
-
-# Local configuration overrides
-config/local.* 
+# Ignorera alla andra projekt i samma repository
+../DFF/
+../DFRM-MySQL/
+../ExifEdit/
+../Experiments/
+../FHS/
+../Final/
+../LiveCoding/
+../Memorey/
+../Mini_nodejs_project/
+../Natours/
+../Raisk/
+../The-Wild-Oasis/
+../Wordle/
+../headhunter-backend-obsolete/
+../mcp-pandoc/
+../mem/
+../rental-management/
+../rulesScraper/
+../stocks/
+../svenska5minuter/ 

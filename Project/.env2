@@ -1,0 +1,48 @@
+ # Databasuppgifter
+DB_NAME=fhs_dev
+DB_USER=postgres
+DB_PASSWORD=Tr4d1l0s!
+
+# Admin-användaruppgifter för Spring Security
+ADMIN_USER=admin
+ADMIN_PASSWORD=admin
+
+# SMTP för att SKICKA mail (info-kontot)
+SMTP_HOST=mailcluster.loopia.se
+SMTP_PORT=587
+SMTP_USER=info@duggalsfastigheter.se
+SMTP_PASS=!e8E$..n2MP2W_7
+
+# IMAP för att LÄSA mail (intresse-kontot)
+EMAIL_HOST_INTEREST=mailcluster.loopia.se
+EMAIL_USER_INTEREST=intresse@duggalsfastigheter.se
+EMAIL_PASSWORD_INTEREST=qhEYxmLw-!f5T%4
+EMAIL_READ_PORT_INTEREST=993
+
+# SMTP för att SKICKA mail (bokning-kontot)
+EMAIL_BOKNING_HOST=mailcluster.loopia.se
+EMAIL_BOKNING_USER=bokning@duggalsfastigheter.se
+EMAIL_BOKNING_PASS=@H9,fkFJfTsHN*v
+EMAIL_BOKNING_PORT=587
+
+# SMTP för att SKICKA mail (felanmälan-kontot)
+EMAIL_ISSUE_HOST=mailcluster.loopia.se
+EMAIL_ISSUE_USER=felanmalan@duggalsfastigheter.se
+EMAIL_ISSUE_PASS=EFtXeWpTXtn4d@?
+EMAIL_ISSUE_SEND_PORT=587
+EMAIL_ISSUE_READ_PORT=993
+
+# Default visningsvärd (e-postadress för användare som ska vara default)
+DEFAULT_HOST_EMAIL=mikael.engvall.me@gmail.com
+
+# JWT konfiguration
+JWT_SECRET=H5KJhL8MNxcV3BnM4z7P9qRsTuVwXyZaBcDeFgHiJkLmN0pQrS2t4u6v8wAz
+JWT_EXPIRATION=43200000
+
+# Google Translate API
+GOOGLE_TRANSLATE_API_KEY=AIzaSyB5ngQA09xhKB48kWqs5Dm0-LjWNNf2Tfk
+
+# Serverinställningar
+PORT=8080
+
+TERMINATION_BCC_RECIPIENTS=duggaltrading@gmail.com,duggalsfastigheter@gmail.com
