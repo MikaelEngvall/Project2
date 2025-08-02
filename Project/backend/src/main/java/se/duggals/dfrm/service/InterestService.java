@@ -96,8 +96,7 @@ public class InterestService {
                 .orElseThrow(() -> new IllegalArgumentException("Intresseanmälan hittades inte"));
 
         // Uppdatera fält
-        existingInterest.setFirstName(updatedInterest.getFirstName());
-        existingInterest.setLastName(updatedInterest.getLastName());
+        existingInterest.setName(updatedInterest.getName());
         existingInterest.setEmail(updatedInterest.getEmail());
         existingInterest.setPhone(updatedInterest.getPhone());
         existingInterest.setStatus(updatedInterest.getStatus());

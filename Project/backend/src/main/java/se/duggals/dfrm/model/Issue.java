@@ -39,20 +39,15 @@ public class Issue {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     
-    @NotBlank(message = "Förnamn är obligatoriskt")
-    @Size(max = 100, message = "Förnamn får inte vara längre än 100 tecken")
-    @Column(name = "first_name", nullable = false)
-    private String firstName;
-    
-    @NotBlank(message = "Efternamn är obligatoriskt")
-    @Size(max = 100, message = "Efternamn får inte vara längre än 100 tecken")
-    @Column(name = "last_name", nullable = false)
-    private String lastName;
+    @NotBlank(message = "Rapportörs namn är obligatoriskt")
+    @Size(max = 255, message = "Rapportörs namn får inte vara längre än 255 tecken")
+    @Column(name = "reporter_name")
+    private String reporterName;
     
     @NotBlank(message = "E-post är obligatoriskt")
     @Email(message = "Ogiltig e-postadress")
-    @Column(nullable = false)
-    private String email;
+    @Column(name = "reporter_email")
+    private String reporterEmail;
     
     @Size(max = 20, message = "Telefonnummer får inte vara längre än 20 tecken")
     private String phone;
@@ -62,10 +57,10 @@ public class Issue {
     @JoinColumn(name = "apartment_id", nullable = false)
     private Apartment apartment;
     
-    @NotBlank(message = "Ämne är obligatoriskt")
-    @Size(max = 255, message = "Ämne får inte vara längre än 255 tecken")
-    @Column(nullable = false)
-    private String subject;
+    @NotBlank(message = "Titel är obligatoriskt")
+    @Size(max = 255, message = "Titel får inte vara längre än 255 tecken")
+    @Column(name = "title", nullable = false)
+    private String title;
     
     @NotBlank(message = "Beskrivning är obligatoriskt")
     @Column(columnDefinition = "TEXT", nullable = false)
@@ -119,24 +114,22 @@ public class Issue {
         // Tom konstruktor för JPA
     }
     
-    public Issue(String firstName, String lastName, String email, Apartment apartment, 
-                 String subject, String description) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
+        public Issue(String reporterName, String reporterEmail, Apartment apartment, 
+                 String title, String description) {
+        this.reporterName = reporterName;
+        this.reporterEmail = reporterEmail;
         this.apartment = apartment;
-        this.subject = subject;
+        this.title = title;
         this.description = description;
     }
-    
-    public Issue(String firstName, String lastName, String email, String phone,
-                 Apartment apartment, String subject, String description, IssuePriority priority) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
+
+    public Issue(String reporterName, String reporterEmail, String phone,
+                 Apartment apartment, String title, String description, IssuePriority priority) {
+        this.reporterName = reporterName;
+        this.reporterEmail = reporterEmail;
         this.phone = phone;
         this.apartment = apartment;
-        this.subject = subject;
+        this.title = title;
         this.description = description;
         this.priority = priority;
     }
@@ -150,28 +143,20 @@ public class Issue {
         this.id = id;
     }
     
-    public String getFirstName() {
-        return firstName;
+    public String getReporterName() {
+        return reporterName;
     }
     
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setReporterName(String reporterName) {
+        this.reporterName = reporterName;
     }
     
-    public String getLastName() {
-        return lastName;
+    public String getReporterEmail() {
+        return reporterEmail;
     }
     
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-    
-    public String getEmail() {
-        return email;
-    }
-    
-    public void setEmail(String email) {
-        this.email = email;
+    public void setReporterEmail(String reporterEmail) {
+        this.reporterEmail = reporterEmail;
     }
     
     public String getPhone() {
@@ -190,12 +175,12 @@ public class Issue {
         this.apartment = apartment;
     }
     
-    public String getSubject() {
-        return subject;
+    public String getTitle() {
+        return title;
     }
     
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void setTitle(String title) {
+        this.title = title;
     }
     
     public String getDescription() {
@@ -281,7 +266,7 @@ public class Issue {
     // Hjälpmetoder
     @JsonIgnore
     public String getFullName() {
-        return firstName + " " + lastName;
+        return reporterName;
     }
     
     @JsonIgnore
@@ -347,9 +332,8 @@ public class Issue {
     public String toString() {
         return "Issue{" +
                 "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", subject='" + subject + '\'' +
+                ", reporterName='" + reporterName + '\'' +
+                ", title='" + title + '\'' +
                 ", priority=" + priority +
                 ", status=" + status +
                 '}';

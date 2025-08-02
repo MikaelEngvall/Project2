@@ -29,12 +29,12 @@ public interface IssueRepository extends JpaRepository<Issue, UUID> {
     /**
      * Hitta felanmälningar genom e-post
      */
-    Optional<Issue> findByEmail(String email);
+    Optional<Issue> findByReporterEmail(String email);
     
     /**
      * Hitta felanmälningar genom e-post (case-insensitive)
      */
-    Optional<Issue> findByEmailIgnoreCase(String email);
+    Optional<Issue> findByReporterEmailIgnoreCase(String email);
     
     /**
      * Hitta felanmälningar genom status

@@ -42,7 +42,7 @@ cls# DFRM - Duggals Fastigheter Management System
 - [x] Skapa Task-modell
 - [x] Implementera repositories (User, Apartment, Tenant, Interest, Issue, Task)
 - [x] Implementera services (UserService, ApartmentService, TenantService, InterestService, IssueService, TaskService)
-- [ ] Implementera controllers
+- [x] Implementera controllers (UserController, ApartmentController, TenantController, InterestController, IssueController, TaskController)
 - [ ] Implementera säkerhetskonfiguration
 
 #### Frontend-implementation
@@ -56,7 +56,7 @@ cls# DFRM - Duggals Fastigheter Management System
 - [ ] Implementera uppgiftssidor
 
 #### Databas och migrationer
-- [ ] Testa databasmigration lokalt
+- [x] Testa databasmigration lokalt
 - [ ] Skapa testdata
 - [ ] Implementera soft delete-logik
 - [ ] Optimera databas-queries
@@ -65,7 +65,7 @@ cls# DFRM - Duggals Fastigheter Management System
 
 #### Fas 1: Grundstruktur
 - [ ] Implementera grundläggande autentisering
-- [ ] Grundläggande API-endpoints
+- [x] Grundläggande API-endpoints
 
 #### Fas 2: Core Features (PÅGÅENDE)
 - [ ] Lägenhetshantering
@@ -114,6 +114,9 @@ cls# DFRM - Duggals Fastigheter Management System
 - ✅ Implementerat alla controllers (UserController, ApartmentController, TenantController, InterestController, IssueController, TaskController)
 - ✅ Alla 25 Java-filer kompilerar utan fel
 - ✅ Komplett REST API med 6 controllers, 6 services, 6 repositories
+- ✅ Backend-servern startar framgångsrikt på port 8080
+- ✅ Databasmigrationer fungerar korrekt (V1, V2, V3)
+- ✅ Schema-synkronisering konfigurerad för automatisk uppdatering
 - 🔄 Nästa steg: Implementera säkerhetskonfiguration och OAuth2
 
 ## 📊 Aktuell status (2024-12-19)
@@ -124,6 +127,9 @@ cls# DFRM - Duggals Fastigheter Management System
 - **Services**: 6/6 implementerade med business logic
 - **Controllers**: 6/6 implementerade med alla REST endpoints
 - **Kompilering**: ✅ Alla 25 Java-filer kompilerar utan fel
+- **Server-start**: ✅ Backend-servern startar framgångsrikt på port 8080
+- **Databasmigrationer**: ✅ Flyway-migrationer fungerar korrekt (V1, V2, V3)
+- **Schema-synkronisering**: ✅ JPA-konfiguration uppdaterad för automatisk schema-synkronisering
 
 ### Datatyper och variabler dokumenterade ✅
 - **UUID**: Alla primärnycklar och foreign keys

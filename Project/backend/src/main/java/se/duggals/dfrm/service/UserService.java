@@ -37,7 +37,7 @@ public class UserService {
         if (user.getPreferredLanguage() == null) {
             user.setPreferredLanguage("sv");
         }
-        user.setIsActive(true);
+        user.setActive(true);
 
         return userRepository.save(user);
     }
@@ -60,7 +60,7 @@ public class UserService {
      * Hämta alla aktiva användare
      */
     public List<User> getAllActiveUsers() {
-        return userRepository.findByIsActiveTrue();
+        return userRepository.findByActiveTrue();
     }
 
     /**
@@ -91,7 +91,7 @@ public class UserService {
         existingUser.setPhone(updatedUser.getPhone());
         existingUser.setRole(updatedUser.getRole());
         existingUser.setPreferredLanguage(updatedUser.getPreferredLanguage());
-        existingUser.setIsActive(updatedUser.getIsActive());
+        existingUser.setActive(updatedUser.getActive());
         existingUser.setPermissions(updatedUser.getPermissions());
 
         return userRepository.save(existingUser);
@@ -104,7 +104,7 @@ public class UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Användare hittades inte"));
 
-        user.setIsActive(true);
+        user.setActive(true);
         userRepository.save(user);
     }
 
@@ -115,7 +115,7 @@ public class UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Användare hittades inte"));
 
-        user.setIsActive(false);
+        user.setActive(false);
         userRepository.save(user);
     }
 
@@ -126,7 +126,7 @@ public class UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Användare hittades inte"));
 
-        user.setIsActive(false);
+        user.setActive(false);
         userRepository.save(user);
     }
 
@@ -137,7 +137,7 @@ public class UserService {
         User user = userRepository.findById(userId)
                 .orElse(null);
 
-        if (user == null || !user.getIsActive()) {
+        if (user == null || !user.getActive()) {
             return false;
         }
 
@@ -168,7 +168,7 @@ public class UserService {
      * Räkna aktiva användare
      */
     public long countActiveUsers() {
-        return userRepository.countByIsActiveTrue();
+        return userRepository.countByActiveTrue();
     }
 
     /**

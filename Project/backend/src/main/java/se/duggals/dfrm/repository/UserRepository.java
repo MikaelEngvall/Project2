@@ -36,7 +36,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     /**
      * Hitta aktiva användare
      */
-    List<User> findByIsActiveTrue();
+    List<User> findByActiveTrue();
     
     /**
      * Hitta användare genom roll
@@ -46,7 +46,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     /**
      * Hitta aktiva användare genom roll
      */
-    List<User> findByRoleAndIsActiveTrue(User.UserRole role);
+    List<User> findByRoleAndActiveTrue(User.UserRole role);
     
     /**
      * Sök användare genom namn (förnamn eller efternamn)
@@ -81,7 +81,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     /**
      * Räkna aktiva användare
      */
-    long countByIsActiveTrue();
+    long countByActiveTrue();
     
     /**
      * Räkna användare per roll

@@ -39,15 +39,10 @@ public class Interest {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     
-    @NotBlank(message = "Förnamn är obligatoriskt")
-    @Size(max = 100, message = "Förnamn får inte vara längre än 100 tecken")
-    @Column(name = "first_name", nullable = false)
-    private String firstName;
-    
-    @NotBlank(message = "Efternamn är obligatoriskt")
-    @Size(max = 100, message = "Efternamn får inte vara längre än 100 tecken")
-    @Column(name = "last_name", nullable = false)
-    private String lastName;
+    @NotBlank(message = "Namn är obligatoriskt")
+    @Size(max = 255, message = "Namn får inte vara längre än 255 tecken")
+    @Column(name = "name")
+    private String name;
     
     @NotBlank(message = "E-post är obligatoriskt")
     @Email(message = "Ogiltig e-postadress")
@@ -108,17 +103,15 @@ public class Interest {
         // Tom konstruktor för JPA
     }
     
-    public Interest(String firstName, String lastName, String email, Apartment apartment) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public Interest(String name, String email, Apartment apartment) {
+        this.name = name;
         this.email = email;
         this.apartment = apartment;
     }
     
-    public Interest(String firstName, String lastName, String email, String phone,
+    public Interest(String name, String email, String phone,
                    Apartment apartment, String notes) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.name = name;
         this.email = email;
         this.phone = phone;
         this.apartment = apartment;
@@ -134,20 +127,12 @@ public class Interest {
         this.id = id;
     }
     
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
     
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-    
-    public String getLastName() {
-        return lastName;
-    }
-    
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setName(String name) {
+        this.name = name;
     }
     
     public String getEmail() {
@@ -249,7 +234,7 @@ public class Interest {
     // Hjälpmetoder
     @JsonIgnore
     public String getFullName() {
-        return firstName + " " + lastName;
+        return name;
     }
     
     @JsonIgnore
@@ -302,8 +287,7 @@ public class Interest {
     public String toString() {
         return "Interest{" +
                 "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", status=" + status +
                 '}';

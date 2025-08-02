@@ -90,8 +90,7 @@ public interface InterestRepository extends JpaRepository<Interest, UUID> {
      * Sök intresseanmälningar genom namn eller e-post
      */
     @Query("SELECT i FROM Interest i WHERE " +
-           "LOWER(i.firstName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
-           "LOWER(i.lastName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+           "LOWER(i.name) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
            "LOWER(i.email) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
     Page<Interest> searchInterests(@Param("searchTerm") String searchTerm, Pageable pageable);
     

@@ -1,15 +1,23 @@
 package se.duggals.dfrm.model;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.UUID;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.UUID;
 
 /**
  * Apartment entity för DFRM-systemet
@@ -66,6 +74,10 @@ public class Apartment {
     @Column(name = "postal_code")
     private String postalCode;
     
+    @Size(max = 255, message = "Beskrivning får inte vara längre än 255 tecken")
+    @Column(name = "description")
+    private String description;
+    
     @NotNull(message = "Upptagen status är obligatoriskt")
     @Column(nullable = false)
     private Boolean occupied = false;
@@ -101,7 +113,7 @@ public class Apartment {
     
     public Apartment(String street, String number, String apartmentNumber, 
                     Integer size, Integer floor, Double area, Integer rooms, 
-                    BigDecimal monthlyRent, String postalCode) {
+                    BigDecimal monthlyRent, String postalCode, String description) {
         this.street = street;
         this.number = number;
         this.apartmentNumber = apartmentNumber;
@@ -111,6 +123,7 @@ public class Apartment {
         this.rooms = rooms;
         this.monthlyRent = monthlyRent;
         this.postalCode = postalCode;
+        this.description = description;
     }
     
     // Getters och Setters (manuella, ingen Lombok)
@@ -192,6 +205,14 @@ public class Apartment {
     
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
+    }
+    
+    public String getDescription() {
+        return description;
+    }
+    
+    public void setDescription(String description) {
+        this.description = description;
     }
     
     public Boolean getOccupied() {

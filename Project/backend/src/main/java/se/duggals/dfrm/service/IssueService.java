@@ -87,11 +87,10 @@ public class IssueService {
                 .orElseThrow(() -> new IllegalArgumentException("Felanmälan hittades inte"));
 
         // Uppdatera fält
-        existingIssue.setFirstName(updatedIssue.getFirstName());
-        existingIssue.setLastName(updatedIssue.getLastName());
-        existingIssue.setEmail(updatedIssue.getEmail());
+        existingIssue.setReporterName(updatedIssue.getReporterName());
+        existingIssue.setReporterEmail(updatedIssue.getReporterEmail());
         existingIssue.setPhone(updatedIssue.getPhone());
-        existingIssue.setSubject(updatedIssue.getSubject());
+        existingIssue.setTitle(updatedIssue.getTitle());
         existingIssue.setDescription(updatedIssue.getDescription());
         existingIssue.setPriority(updatedIssue.getPriority());
         existingIssue.setStatus(updatedIssue.getStatus());

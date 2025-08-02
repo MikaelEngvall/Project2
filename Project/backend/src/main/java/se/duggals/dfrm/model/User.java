@@ -1,15 +1,24 @@
 package se.duggals.dfrm.model;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.UUID;
 
 /**
  * User entity för DFRM-systemet
@@ -52,8 +61,8 @@ public class User {
     private String preferredLanguage = "sv";
     
     @NotNull(message = "Aktiv status är obligatoriskt")
-    @Column(name = "is_active", nullable = false)
-    private Boolean isActive = true;
+    @Column(name = "active", nullable = false)
+    private Boolean active = true;
     
     @Column(columnDefinition = "jsonb")
     private String permissions;
@@ -92,13 +101,13 @@ public class User {
     }
     
     public User(String firstName, String lastName, String email, UserRole role, 
-                String preferredLanguage, Boolean isActive, String permissions, String phone) {
+                String preferredLanguage, Boolean active, String permissions, String phone) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.role = role;
         this.preferredLanguage = preferredLanguage;
-        this.isActive = isActive;
+        this.active = active;
         this.permissions = permissions;
         this.phone = phone;
     }
@@ -152,12 +161,12 @@ public class User {
         this.preferredLanguage = preferredLanguage;
     }
     
-    public Boolean getIsActive() {
-        return isActive;
+    public Boolean getActive() {
+        return active;
     }
     
-    public void setIsActive(Boolean isActive) {
-        this.isActive = isActive;
+    public void setActive(Boolean active) {
+        this.active = active;
     }
     
     public String getPermissions() {
@@ -232,7 +241,7 @@ public class User {
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", role=" + role +
-                ", isActive=" + isActive +
+                ", active=" + active +
                 '}';
     }
     
