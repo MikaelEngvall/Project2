@@ -48,7 +48,7 @@ public class IssueService {
      * Hämta felanmälan efter email
      */
     public Optional<Issue> getIssueByEmail(String email) {
-        return issueRepository.findByEmail(email);
+        return issueRepository.findByReporterEmail(email);
     }
 
     /**
